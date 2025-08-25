@@ -6,6 +6,11 @@ Feito em **HTML/CSS/JS puro**, sem dependências de build.
 ![screenshot](./screenshot.png)
 
 ---
+## 🔗 Acesso
+
+- **Site (GitHub Pages):** https://elen-c-sales.github.io/elen4devs/
+
+---
 
 ## ✨ Funcionalidades
 
