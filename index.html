@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elen4Devs — Calculadoras</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /*
+      ====================
+      Reset e Configurações Base
+      ====================
+    */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      /* Cores principais - Paleta Feminina do seu estilo */
+      --bg-primary: #fdf2f8;
+      --bg-secondary: #f3e5f5;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fef7ff;
+      
+      /* Cores de texto */
+      --text-primary: #2d1b3d;
+      --text-secondary: #6b4c7a;
+      --text-muted: #9ca3af;
+      
+      /* Cores de destaque - Femininas */
+      --accent-primary: #ff6b9d;
+      --accent-secondary: #b39ddb;
+      --accent-success: #81c784;
+      --accent-warning: #ffd54f;
+      --danger: #e63946;
+      
+      /* Gradientes Femininos */
+      --gradient-primary: linear-gradient(135deg, #ff6b9d 0%, #b39ddb 100%);
+      --gradient-secondary: linear-gradient(135deg, #ff8a80 0%, #ffd54f 100%);
+      --gradient-card: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+      --gradient-bg: linear-gradient(135deg, #fdf2f8 0%, #f3e5f5 100%);
+      
+      /* Sombras Suaves */
+      --shadow-sm: 0 2px 8px rgba(255, 107, 157, 0.1);
+      --shadow-md: 0 4px 16px rgba(255, 107, 157, 0.15);
+      --shadow-lg: 0 8px 32px rgba(255, 107, 157, 0.2);
+      
+      /* Bordas */
+      --border-radius: 16px;
+      --border-radius-lg: 24px;
+      
+      /* Transições */
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--gradient-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /*
+      ====================
+      Estilo do Header (topo da página)
+      ====================
+    */
+    .header {
+      background: var(--bg-card);
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+      box-shadow: var(--shadow-sm);
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .social-links { display: flex; gap: 15px; }
+    .social-link { color: var(--text-secondary); font-size: 1.2rem; transition: var(--transition); }
+    .social-link:hover { color: var(--accent-primary); transform: translateY(-2px); }
+
+    /*
+      ====================
+      Layout com sidebar
+      ====================
+    */
+    .content-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .sidebar {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 107, 157, 0.1);
+      padding: 16px;
+      height: max-content;
+      position: sticky;
+      top: 16px;
+      align-self: start;
+    }
+    .sidebar .section-title {
+      font-weight: 800;
+      font-size: .95rem;
+      color: var(--text-secondary);
+      background: var(--bg-card-hover);
+      padding: 10px 12px;
+      border-radius: 12px;
+      letter-spacing: .02em;
+      border: 1px solid rgba(255, 107, 157, 0.1);
+    }
+    .menu { list-style: none; margin: 10px 0 18px 0; padding: 0; }
+    .menu a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-primary);
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+    .menu a:hover { background: var(--bg-card-hover); box-shadow: var(--shadow-sm); }
+    .menu a.active {
+      background: linear-gradient(135deg, #ff6b9d22, #b39ddb22);
+      border-color: rgba(255, 107, 157, 0.25);
+    } 
+    .menu .arrow { opacity: .6; }
+
+    /*
+      ====================
+      Estilo do App da Calculadora
+      ====================
+    */
+    .calculator-app {
+      background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      max-width: 720px;
+      width: 100%;
+      border: 1px solid rgba(255, 107, 157, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+    
+    .calculator-app h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+    .intro-text {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .calculation-card {
+      background: var(--bg-card-hover);
+      padding: 24px;
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+    }
+    .calculation-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .form-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .inline-input {
+      width: 120px;
+      min-width: 100px;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--text-muted);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .inline-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .inline-input[aria-invalid="true"] {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(230,57,70,0.15);
+    }
+    .inline-error {
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      display: none;
+    }
+    .inline-error.show { display: block; }
+
+    /* === Círculo: layout do card e responsividade === */
+    #panel-area-circulo .calculation-card{
+    display: grid;
+    grid-template-columns: 1fr 260px; /* formulário | diagrama */
+    gap: 24px;
+    align-items: start;
+    }
+
+    /* bloco do diagrama */
+    #panel-area-circulo .calculation-card .diagram{
+    margin: 0;
+    background: #fff;
+    border: 1px solid rgba(255,107,157,.15);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(255,107,157,.1);
+    text-align: center;
+    }
+
+    #panel-area-circulo .calculation-card .diagram img{
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    }
+
+    /* legenda */
+    #panel-area-circulo .calculation-card .diagram figcaption{
+    color: var(--text-secondary);
+    margin-top: 6px;
+    }
+
+    /* empilhar no mobile */
+    @media (max-width: 900px){
+    #panel-area-circulo .calculation-card{ grid-template-columns: 1fr; }
+    #panel-area-circulo .calculation-card .diagram{ justify-self: center; max-width: 300px; }
+    }
+    
+    /* Tabs para navegação entre as calculadoras */
+    .tablist { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+    .tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      background: var(--gradient-primary);
+      color: white;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+    .tab:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .tab[aria-selected="true"] {
+      outline: 3px solid rgba(255,107,157,0.25);
+    }
+
+    .result-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--accent-primary);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-top: 16px;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      display: none;
+    }
+    .result-box.show { display: block; }
+    .result-box p { font-size: 1.05rem; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+    .result-box span { display: block; font-size: 2.0rem; font-weight: 700; color: var(--accent-primary); }
+    .result-explain { margin-top: 8px; color: var(--text-secondary); font-size: 0.98rem; }
+
+    /*
+      ====================
+      Rodapé e Links
+      ====================
+    */
+    footer {
+      background: var(--text-primary);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+    }
+    footer nav { margin-top: 6px; display: flex; gap: 16px; justify-content: center; font-size: 0.9rem; }
+    footer a { color: #fff; opacity: .9; text-decoration: underline; }
+
+    .message-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-card);
+      border: 1px solid var(--accent-warning);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      animation: scaleIn 0.3s ease-in-out;
+    }
+    @keyframes scaleIn { from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+    .message-box p { font-size: 1.1rem; color: var(--text-primary); }
+    .message-box button {
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .message-box button:hover { background-color: var(--accent-secondary); }
+
+    /*
+      ====================
+      Responsividade
+      ====================
+    */
+    @media (max-width: 1024px){
+      .content-shell { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: auto; order: 2; }
+      .main-content { order: 1; }
+    }
+    @media (max-width: 768px) {
+      .calculator-app { padding: 25px; }
+      .calculator-app h2 { font-size: 2rem; }
+      .inline-input { width: 100%; }
+      .form-inline { flex-direction: column; align-items: stretch; }
+      .tablist { flex-direction: column; }
+    }
+
+    /* === Estilos específicos para os novos painéis === */
+    .area-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .area-card {
+      padding: 24px;
+      background: var(--bg-card-hover);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .area-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+    }
+    .form-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: flex-end;
+    }
+    .form-input-group {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .form-input-group label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+    .form-input-group input {
+      padding: 10px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--text-muted);
+    }
+    .btn-calc {
+      padding: 12px 18px;
+      background: var(--gradient-primary);
+      color: white;
+      border-radius: var(--border-radius);
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      font-weight: 600;
+    }
+    .btn-calc:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .result-area {
+      margin-top: 20px;
+      background: var(--bg-secondary);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--accent-primary);
+      display: none;
+    }
+    .result-area.show {
+      display: block;
+    }
+    .result-area p {
+      margin: 0;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .result-area span {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+    
+    .date-input-group {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      margin-bottom: 15px;
+    }
+
+    /* === Classes de utilidade === */
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .full-width {
+      width: 100%;
+    }
+    [data-panel]{ display:none; }
+    [data-panel].active{ display:block; }
+
+    /* Layout do formulário de datas */
+    .date-form {
+    display: grid;
+    grid-template-columns: 1fr 260px; /* Data base | dias */
+    gap: 12px 24px;
+    align-items: end;
+    }
+    .date-form .full { grid-column: 1 / -1; } /* botão ocupa as duas colunas */
+    @media (max-width: 720px){
+    .date-form { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <h1><a href="https://elen-c-sales.github.io/" style="text-decoration: none; color: inherit;">Elen4Devs</a></h1>
+      <div class="social-links" aria-label="Redes sociais">
+        <a href="https://elen-c-sales.github.io/" target="_blank" class="social-link" title="Ir para meu portfólio" aria-label="Portfólio"><i class="fas fa-link" aria-hidden="true"></i></a>
+        <a href="https://github.com/elen-c-sales" target="_blank" class="social-link" title="Ir para meu GitHub" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/elen-camila-sales/" target="_blank" class="social-link" title="Ir para meu LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Menu de ferramentas">
+      <div class="section-title">CALCULADORAS</div>
+      <ul class="menu">
+        <li><a href="#" data-panel-target="panel-percent" class="active">Porcentagem <span class="arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></span></a></li>
+      </ul>
+      <div class="section-title">CALCULAR ÁREAS</div>
+      <ul class="menu">
+        <li><a href="#" data-panel-target="panel-area-circulo">Área do Círculo <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-quadrado">Área do Quadrado <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-retangulo">Área do Retângulo <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-triangulo">Área do Triângulo <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-losango">Área do Losango <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-trapezio">Área do Trapézio <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-area-elipse">Área da Elipse <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+      </ul>
+      <div class="section-title">DATAS E HORAS</div>
+      <ul class="menu">
+        <li><a href="#" data-panel-target="panel-data-contador">Contador de dias entre datas <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-data-somar">Somar dias em datas <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+        <li><a href="#" data-panel-target="panel-data-subtrair">Subtrair dias em datas <span class="arrow"><i class="fas fa-chevron-right"></i></span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="main-col">
+
+        <!-- Painel Porcentagem -->
+        <div class="calculator-app active" data-panel id="panel-percent" aria-labelledby="app-title-percent">
+          <h2 id="app-title-percent">Calculadora de Porcentagem Online</h2>
+          <p class="intro-text">Calcule porcentagens de várias formas: aumentos, descontos, proporções etc.</p>
+          <div id="calc-tabs" class="tablist" role="tablist" aria-label="Tipos de calculadora">
+            <button class="tab" role="tab" id="tab-1" aria-controls="card-1" aria-selected="true" onclick="changeCalculator('card-1','tab-1')"><i class="fas fa-question" aria-hidden="true"></i> X% de Y?</button>
+            <button class="tab" role="tab" id="tab-2" aria-controls="card-2" aria-selected="false" onclick="changeCalculator('card-2','tab-2')"><i class="fas fa-percent" aria-hidden="true"></i> X é qual % de Y?</button>
+            <button class="tab" role="tab" id="tab-3" aria-controls="card-3" aria-selected="false" onclick="changeCalculator('card-3','tab-3')"><i class="fas fa-arrow-up" aria-hidden="true"></i> Aumento de %</button>
+            <button class="tab" role="tab" id="tab-4" aria-controls="card-4" aria-selected="false" onclick="changeCalculator('card-4','tab-4')"><i class="fas fa-arrow-down" aria-hidden="true"></i> Diminuição de %</button>
+            <button class="tab" role="tab" id="tab-5" aria-controls="card-5" aria-selected="false" onclick="changeCalculator('card-5','tab-5')"><i class="fas fa-chart-line" aria-hidden="true"></i> Aumento % (entre valores)</button>
+            <button class="tab" role="tab" id="tab-6" aria-controls="card-6" aria-selected="false" onclick="changeCalculator('card-6','tab-6')"><i class="fas fa-chart-line" aria-hidden="true"></i> Diminuição % (entre valores)</button>
+          </div>
+
+          <!-- Cards % -->
+          <section class="calculation-card" id="card-1" role="tabpanel" aria-labelledby="tab-1">
+            <h3>Qual o valor de X% de Y?</h3>
+            <div class="form-inline" aria-describedby="hint-1">
+              <span>Qual é</span>
+              <input type="number" id="input-x-1-inline" class="inline-input" placeholder="%" inputmode="decimal" aria-label="Porcentagem X">
+              <span>% de</span>
+              <input type="number" id="input-y-1-inline" class="inline-input" placeholder="Valor Y" inputmode="decimal" aria-label="Valor Y">
+              <span>?</span>
+              <button class="tab" onclick="calculate('type1')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-1" class="intro-text">Ex.: 20% de 150 = 30.</small>
+            <div class="inline-error" id="error-1" role="alert"></div>
+            <div class="result-box" id="result-1" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-1">0</span>
+              <div id="result-explain-1" class="result-explain"></div>
+            </div>
+          </section>
+
+          <section class="calculation-card" id="card-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+            <h3>X é qual porcentagem de Y?</h3>
+            <div class="form-inline" aria-describedby="hint-2">
+              <span>O valor</span>
+              <input type="number" id="input-x-2-inline" class="inline-input" placeholder="Valor X" inputmode="decimal" aria-label="Valor X">
+              <span>é qual porcentagem de</span>
+              <input type="number" id="input-y-2-inline" class="inline-input" placeholder="Valor Y" inputmode="decimal" aria-label="Valor Y">
+              <span>?</span>
+              <button class="tab" onclick="calculate('type2')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-2" class="intro-text">Ex.: 30 é 20% de 150.</small>
+            <div class="inline-error" id="error-2" role="alert"></div>
+            <div class="result-box" id="result-2" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-2">0</span>
+              <div id="result-explain-2" class="result-explain"></div>
+            </div>
+          </section>
+
+          <section class="calculation-card" id="card-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+            <h3>Calcular Aumento de %</h3>
+            <div class="form-inline" aria-describedby="hint-3">
+              <span>Tenho um valor de</span>
+              <input type="number" id="input-y-3-inline" class="inline-input" placeholder="Valor atual" inputmode="decimal" aria-label="Valor atual">
+              <span>e quero AUMENTAR</span>
+              <input type="number" id="input-x-3-inline" class="inline-input" placeholder="%" inputmode="decimal" aria-label="Porcentagem do aumento">
+              <span>% Qual é o resultado?</span>
+              <button class="tab" onclick="calculate('type3')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-3" class="intro-text">Ex.: 150 aumentado em 20% = 180.</small>
+            <div class="inline-error" id="error-3" role="alert"></div>
+            <div class="result-box" id="result-3" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-3">0</span>
+              <div id="result-explain-3" class="result-explain"></div>
+            </div>
+          </section>
+
+          <section class="calculation-card" id="card-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+            <h3>Calcular Diminuição de %</h3>
+            <div class="form-inline" aria-describedby="hint-4">
+              <span>Tenho um valor de</span>
+              <input type="number" id="input-y-4-inline" class="inline-input" placeholder="Valor atual" inputmode="decimal" aria-label="Valor atual">
+              <span>e quero DIMINUIR</span>
+              <input type="number" id="input-x-4-inline" class="inline-input" placeholder="%" inputmode="decimal" aria-label="Porcentagem da redução">
+              <span>% Qual é o resultado?</span>
+              <button class="tab" onclick="calculate('type4')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-4" class="intro-text">Ex.: 150 reduzido em 20% = 120.</small>
+            <div class="inline-error" id="error-4" role="alert"></div>
+            <div class="result-box" id="result-4" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-4">0</span>
+              <div id="result-explain-4" class="result-explain"></div>
+            </div>
+          </section>
+
+          <section class="calculation-card" id="card-5" role="tabpanel" aria-labelledby="tab-5" hidden>
+            <h3>Calcular Aumento Percentual</h3>
+            <div class="form-inline" aria-describedby="hint-5">
+              <span>Um valor de</span>
+              <input type="number" id="input-y-5-inline" class="inline-input" placeholder="Valor inicial" inputmode="decimal" aria-label="Valor inicial">
+              <span>que AUMENTOU para</span>
+              <input type="number" id="input-x-5-inline" class="inline-input" placeholder="Valor final" inputmode="decimal" aria-label="Valor final">
+              <span>. Qual foi o aumento percentual?</span>
+              <button class="tab" onclick="calculate('type5')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-5" class="intro-text">Ex.: de 150 para 180 = +20%.</small>
+            <div class="inline-error" id="error-5" role="alert"></div>
+            <div class="result-box" id="result-5" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-5">0</span>
+              <div id="result-explain-5" class="result-explain"></div>
+            </div>
+          </section>
+
+          <section class="calculation-card" id="card-6" role="tabpanel" aria-labelledby="tab-6" hidden>
+            <h3>Calcular Diminuição Percentual</h3>
+            <div class="form-inline" aria-describedby="hint-6">
+              <span>Um valor de</span>
+              <input type="number" id="input-y-6-inline" class="inline-input" placeholder="Valor inicial" inputmode="decimal" aria-label="Valor inicial">
+              <span>que DIMINUIU para</span>
+              <input type="number" id="input-x-6-inline" class="inline-input" placeholder="Valor final" inputmode="decimal" aria-label="Valor final">
+              <span>. Qual foi a diminuição percentual?</span>
+              <button class="tab" onclick="calculate('type6')"><i class="fas fa-calculator" aria-hidden="true"></i> Calcular</button>
+            </div>
+            <small id="hint-6" class="intro-text">Ex.: de 150 para 120 = −20%.</small>
+            <div class="inline-error" id="error-6" role="alert"></div>
+            <div class="result-box" id="result-6" aria-live="polite">
+              <p>Resultado:</p>
+              <span id="result-value-6">0</span>
+              <div id="result-explain-6" class="result-explain"></div>
+            </div>
+          </section>
+
+          <p class="intro-text" style="margin-top: 20px;">Este é o começo da suíte Elen4Devs — novas aplicações chegando.</p>
+        </div>
+
+        <!-- Painel Área do Círculo -->
+        <div class="calculator-app" data-panel id="panel-area-circulo" aria-labelledby="app-title-circulo">
+        <h2 id="app-title-circulo">Área do Círculo</h2>
+        <p class="intro-text">
+            Selecione a fórmula por <strong>raio</strong> (r) ou <strong>diâmetro</strong> (d), digite o valor e calcule a área.
+            Usamos π = 3,14159.
+        </p>
+
+        <div class="calculation-card">
+            <!-- diagrama ao lado, sem quebrar seu layout -->
+            <figure class="diagram" aria-hidden="true">
+            <img
+                src="raio-diametro-circunferencia.png"
+                alt="Diagrama mostrando raio (r), diâmetro (d) e circunferência"
+                loading="lazy" decoding="async"
+                width="400" height="400"
+            >
+            <figcaption>Raio (r), diâmetro (d) e circunferência</figcaption>
+            </figure>
+
+            <!-- rádios com as fórmulas nos rótulos -->
+            <div class="form-inline" role="radiogroup" aria-label="Escolha da fórmula">
+            <label><input type="radio" name="modo-circulo" value="raio" checked>
+                Fórmula do <strong>raio</strong> (S = π r²)
+            </label>
+            <label><input type="radio" name="modo-circulo" value="diametro">
+                Fórmula do <strong>diâmetro</strong> (S = π d² / 4)
+            </label>
+            </div>
+
+            <!-- inputs -->
+            <div class="form-inputs" style="margin-top:10px">
+            <div class="form-input-group">
+                <label for="valor-circulo">Digite o <span id="rotulo-valor">raio</span>:</label>
+                <input id="valor-circulo" type="number" inputmode="decimal" placeholder="0" />
+            </div>
+
+            <div class="form-input-group">
+                <label for="unidade-circulo">Unidade:</label>
+                <select id="unidade-circulo">
+                <option value="m">m</option>
+                <option value="cm">cm</option>
+                <option value="mm">mm</option>
+                <option value="km">km</option>
+                </select>
+            </div>
+
+            <div class="form-input-group">
+                <label for="decimais-circulo">Casas decimais:</label>
+                <select id="decimais-circulo">
+                <option>0</option><option>1</option><option selected>2</option>
+                <option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+            </div>
+
+            <button class="btn-calc" onclick="calcularAreaCirculo()">Calcular Área</button>
+            </div>
+
+            <!-- resultado -->
+            <div class="result-area" id="result-circulo">
+            <p>Área:</p>
+            <span id="valor-area-circulo">0</span>
+            <div id="explicacao-circulo" class="result-explain"></div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Painel Área do Quadrado -->
+        <div class="calculator-app" data-panel id="panel-area-quadrado" aria-labelledby="app-title-quadrado" hidden>
+          <h2 id="app-title-quadrado">Área do Quadrado</h2>
+          <p class="intro-text">Insira o valor do lado ($l$) do quadrado para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="lado-quadrado">Lado (l):</label>
+                <input id="lado-quadrado" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-quadrado">Unidade:</label>
+                <select id="unidade-quadrado">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-quadrado">Casas decimais:</label>
+                <select id="decimais-quadrado">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('quadrado')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-quadrado">
+              <p>Área:</p>
+              <span id="valor-area-quadrado">0</span>
+              <div id="explicacao-quadrado" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Painel Área do Retângulo -->
+        <div class="calculator-app" data-panel id="panel-area-retangulo" aria-labelledby="app-title-retangulo" hidden>
+          <h2 id="app-title-retangulo">Área do Retângulo</h2>
+          <p class="intro-text">Insira os valores do comprimento e largura do retângulo para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="comprimento-retangulo">Comprimento:</label>
+                <input id="comprimento-retangulo" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="largura-retangulo">Largura:</label>
+                <input id="largura-retangulo" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-retangulo">Unidade:</label>
+                <select id="unidade-retangulo">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-retangulo">Casas decimais:</label>
+                <select id="decimais-retangulo">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('retangulo')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-retangulo">
+              <p>Área:</p>
+              <span id="valor-area-retangulo">0</span>
+              <div id="explicacao-retangulo" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Área do Triângulo -->
+        <div class="calculator-app" data-panel id="panel-area-triangulo" aria-labelledby="app-title-triangulo" hidden>
+          <h2 id="app-title-triangulo">Área do Triângulo</h2>
+          <p class="intro-text">Insira os valores da base ($b$) e da altura ($h$) do triângulo para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="base-triangulo">Base (b):</label>
+                <input id="base-triangulo" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="altura-triangulo">Altura (h):</label>
+                <input id="altura-triangulo" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-triangulo">Unidade:</label>
+                <select id="unidade-triangulo">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-triangulo">Casas decimais:</label>
+                <select id="decimais-triangulo">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('triangulo')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-triangulo">
+              <p>Área:</p>
+              <span id="valor-area-triangulo">0</span>
+              <div id="explicacao-triangulo" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Área do Losango -->
+        <div class="calculator-app" data-panel id="panel-area-losango" aria-labelledby="app-title-losango" hidden>
+          <h2 id="app-title-losango">Área do Losango</h2>
+          <p class="intro-text">Insira os valores das diagonais (D e d) do losango para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="diagonal-maior-losango">Diagonal Maior (D):</label>
+                <input id="diagonal-maior-losango" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="diagonal-menor-losango">Diagonal Menor (d):</label>
+                <input id="diagonal-menor-losango" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-losango">Unidade:</label>
+                <select id="unidade-losango">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-losango">Casas decimais:</label>
+                <select id="decimais-losango">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('losango')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-losango">
+              <p>Área:</p>
+              <span id="valor-area-losango">0</span>
+              <div id="explicacao-losango" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Área do Trapézio -->
+        <div class="calculator-app" data-panel id="panel-area-trapezio" aria-labelledby="app-title-trapezio" hidden>
+          <h2 id="app-title-trapezio">Área do Trapézio</h2>
+          <p class="intro-text">Insira os valores das bases (B e b) e da altura (h) do trapézio para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="base-maior-trapezio">Base Maior (B):</label>
+                <input id="base-maior-trapezio" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="base-menor-trapezio">Base Menor (b):</label>
+                <input id="base-menor-trapezio" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="altura-trapezio">Altura (h):</label>
+                <input id="altura-trapezio" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-trapezio">Unidade:</label>
+                <select id="unidade-trapezio">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-trapezio">Casas decimais:</label>
+                <select id="decimais-trapezio">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('trapezio')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-trapezio">
+              <p>Área:</p>
+              <span id="valor-area-trapezio">0</span>
+              <div id="explicacao-trapezio" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Área da Elipse -->
+        <div class="calculator-app" data-panel id="panel-area-elipse" aria-labelledby="app-title-elipse" hidden>
+          <h2 id="app-title-elipse">Área da Elipse</h2>
+          <p class="intro-text">Insira os valores do semi-eixo maior ($a$) e semi-eixo menor ($b$) da elipse para calcular sua área.</p>
+          <div class="calculation-card">
+            <div class="form-inputs">
+              <div class="form-input-group">
+                <label for="semi-eixo-a">Semi-eixo Maior (a):</label>
+                <input id="semi-eixo-a" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="semi-eixo-b">Semi-eixo Menor (b):</label>
+                <input id="semi-eixo-b" type="number" inputmode="decimal" placeholder="0" />
+              </div>
+              <div class="form-input-group">
+                <label for="unidade-elipse">Unidade:</label>
+                <select id="unidade-elipse">
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="km">km</option>
+                </select>
+              </div>
+              <div class="form-input-group">
+                <label for="decimais-elipse">Casas decimais:</label>
+                <select id="decimais-elipse">
+                  <option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <button class="btn-calc" onclick="calcularArea('elipse')">Calcular</button>
+            </div>
+            <div class="result-area" id="result-elipse">
+              <p>Área:</p>
+              <span id="valor-area-elipse">0</span>
+              <div id="explicacao-elipse" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Painel Contador de Dias -->
+        <div class="calculator-app" data-panel id="panel-data-contador" aria-labelledby="app-title-contador" hidden>
+          <h2 id="app-title-contador">Contador de Dias entre Datas</h2>
+          <p class="intro-text">Selecione duas datas para contar o número de dias, meses e anos entre elas.</p>
+          <div class="calculation-card">
+            <div class="flex-row">
+              <div class="date-input-group">
+                <label for="data-inicio-contador">Data Inicial:</label>
+                <input id="data-inicio-contador" type="date" class="full-width" />
+              </div>
+              <div class="date-input-group">
+                <label for="data-fim-contador">Data Final:</label>
+                <input id="data-fim-contador" type="date" class="full-width" />
+              </div>
+            </div>
+            <button class="btn-calc full-width" onclick="calcularData('contador')">Calcular</button>
+            <div class="result-area" id="result-contador">
+              <p>Resultado:</p>
+              <span id="valor-dias-contador">0</span>
+              <div id="explicacao-contador" class="result-explain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Somar Dias -->
+        <div class="calculator-app" data-panel id="panel-data-somar" aria-labelledby="app-title-somar" hidden>
+        <h2 id="app-title-somar">Somar Dias em uma Data</h2>
+        <p class="intro-text">Selecione uma data e adicione um número de dias para obter a nova data.</p>
+
+        <div class="calculation-card">
+            <div class="date-form">
+            <div class="date-input-group">
+                <label for="data-base-somar">Data Base:</label>
+                <input id="data-base-somar" type="date" class="full-width" />
+            </div>
+
+            <div class="form-input-group">
+                <label for="dias-somar">Adicionar dias:</label>
+                <input id="dias-somar" type="number" inputmode="decimal" placeholder="0" />
+            </div>
+
+            <button class="btn-calc full" onclick="calcularData('somar')">Calcular</button>
+            </div>
+
+            <div class="result-area" id="result-somar">
+            <p>Nova Data:</p>
+            <span id="valor-data-somar"></span>
+            <div id="explicacao-somar" class="result-explain"></div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Painel Subtrair Dias -->
+        <div class="calculator-app" data-panel id="panel-data-subtrair" aria-labelledby="app-title-subtrair" hidden>
+        <h2 id="app-title-subtrair">Subtrair Dias de uma Data</h2>
+        <p class="intro-text">Selecione uma data e subtraia um número de dias para obter a nova data.</p>
+
+        <div class="calculation-card">
+            <div class="date-form">
+            <div class="date-input-group">
+                <label for="data-base-subtrair">Data Base:</label>
+                <input id="data-base-subtrair" type="date" class="full-width" />
+            </div>
+
+            <div class="form-input-group">
+                <label for="dias-subtrair">Subtrair dias:</label>
+                <input id="dias-subtrair" type="number" inputmode="decimal" placeholder="0" />
+            </div>
+
+            <button class="btn-calc full" onclick="calcularData('subtrair')">Calcular</button>
+            </div>
+
+            <div class="result-area" id="result-subtrair">
+            <p>Nova Data:</p>
+            <span id="valor-data-subtrair"></span>
+            <div id="explicacao-subtrair" class="result-explain"></div>
+            </div>
+        </div>
+        </div>
+
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Message Box -->
+  <div id="message-box" class="message-box" role="dialog" aria-modal="true" aria-labelledby="msg-title" aria-describedby="message-text">
+    <p id="msg-title" style="position:absolute;left:-9999px;">Mensagem</p>
+    <p id="message-text"></p>
+    <button onclick="hideMessage()">OK</button>
+  </div>
+
+  <footer>
+    <p>© 2024 Elen Camila Sales Silva — feito com café, código e carinho.</p>
+    <nav aria-label="Links úteis">
+      <a href="#app-title-percent">Topo</a>
+      <a href="mailto:e.camila.sales@gmail.com">Contato</a>
+      <a href="#" onclick="reportProblem()">Reportar problema</a>
+    </nav>
+  </footer>
+
+  <script>
+    // === Navegação: Sidebar troca de painel ===
+    const panels = document.querySelectorAll('[data-panel]');
+    document.querySelectorAll('[data-panel-target]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = link.getAttribute('data-panel-target');
+        // ativa painel
+        panels.forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active');
+        // ativa link
+        document.querySelectorAll('.sidebar .menu a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        // foco de acessibilidade
+        const title = target.querySelector('h2');
+        if (title) title.setAttribute('tabindex','-1'), title.focus();
+      });
+    });
+
+    // === Tabs de porcentagem: teclado (setas) ===
+    document.addEventListener('keydown', (e) => {
+      const tabs = Array.from(document.querySelectorAll('.tab[role="tab"]'));
+      const currentIndex = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+      if (currentIndex === -1) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); const next = tabs[(currentIndex + 1) % tabs.length]; next.click(); next.focus(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); const prev = tabs[(currentIndex - 1 + tabs.length) % tabs.length]; prev.click(); prev.focus(); }
+    });
+
+    function changeCalculator(cardId, tabId) {
+      document.querySelectorAll('[role="tabpanel"]').forEach(panel => { panel.hidden = true; });
+      document.querySelectorAll('.tab[role="tab"]').forEach(tab => tab.setAttribute('aria-selected', 'false'));
+      const panel = document.getElementById(cardId);
+      const tab = document.getElementById(tabId);
+      if (panel) panel.hidden = false;
+      if (tab) tab.setAttribute('aria-selected', 'true');
+      const idx = cardId.split('-')[1];
+      clearError(idx);
+    }
+
+    function reportProblem(){ showMessage('Para relatar um problema, envie um e-mail para e.camila.sales@gmail.com descrevendo o passo a passo.'); }
+    function showMessage(text) { const box = document.getElementById('message-box'); const txt = document.getElementById('message-text'); txt.innerText = text; box.style.display = 'flex'; }
+    function hideMessage() { document.getElementById('message-box').style.display = 'none'; }
+
+    function setError(inputs, errorId, msg){ const errorBox = document.getElementById(errorId); errorBox.textContent = msg; errorBox.classList.add('show'); inputs.forEach(id => { const el = document.getElementById(id); if (el){ el.setAttribute('aria-invalid','true'); el.focus({preventScroll:true}); }}); }
+    function clearError(idx){ const errorBox = document.getElementById(`error-${idx}`); if (errorBox){ errorBox.textContent=''; errorBox.classList.remove('show'); } const inputs = document.querySelectorAll(`#card-${idx} .inline-input`); inputs.forEach(el => el.setAttribute('aria-invalid','false')); }
+    function formatNumber(n, decs=2){ return n.toLocaleString('pt-BR', { minimumFractionDigits: decs, maximumFractionDigits: decs }); }
+
+    // === Cálculos de Porcentagem (iguais ao seu app) ===
+    function calculate(type) {
+      const idx = type.slice(-1);
+      const resultBox = document.getElementById(`result-${idx}`);
+      const resultValue = document.getElementById(`result-value-${idx}`);
+      const resultExplain = document.getElementById(`result-explain-${idx}`);
+      clearError(idx);
+
+      let x, y, result;
+      try {
+        switch (type) {
+          case 'type1':
+            x = parseFloat(document.getElementById('input-x-1-inline').value);
+            y = parseFloat(document.getElementById('input-y-1-inline').value);
+            if (isNaN(x) || isNaN(y)) { setError(['input-x-1-inline','input-y-1-inline'], 'error-1', 'Preencha os dois campos com números válidos.'); return; }
+            result = (x / 100) * y;
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `${formatNumber(x)}% de ${formatNumber(y)} é ${formatNumber(result)}.`;
+            break;
+          case 'type2':
+            x = parseFloat(document.getElementById('input-x-2-inline').value);
+            y = parseFloat(document.getElementById('input-y-2-inline').value);
+            if (isNaN(x) || isNaN(y)) { setError(['input-x-2-inline','input-y-2-inline'], 'error-2', 'Preencha os dois campos com números válidos.'); return; }
+            if (y === 0) { setError(['input-y-2-inline'], 'error-2', 'O valor de Y não pode ser zero.'); return; }
+            result = (x / y) * 100;
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `${formatNumber(x)} é ${formatNumber(result)}% de ${formatNumber(y)}.`;
+            break;
+          case 'type3':
+            x = parseFloat(document.getElementById('input-x-3-inline').value);
+            y = parseFloat(document.getElementById('input-y-3-inline').value);
+            if (isNaN(x) || isNaN(y)) { setError(['input-x-3-inline','input-y-3-inline'], 'error-3', 'Preencha os dois campos com números válidos.'); return; }
+            result = y + (y * (x / 100));
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `${formatNumber(y)} aumentado em ${formatNumber(x)}% resulta em ${formatNumber(result)}.`;
+            break;
+          case 'type4':
+            x = parseFloat(document.getElementById('input-x-4-inline').value);
+            y = parseFloat(document.getElementById('input-y-4-inline').value);
+            if (isNaN(x) || isNaN(y)) { setError(['input-x-4-inline','input-y-4-inline'], 'error-4', 'Preencha os dois campos com números válidos.'); return; }
+            result = y - (y * (x / 100));
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `${formatNumber(y)} reduzido em ${formatNumber(x)}% resulta em ${formatNumber(result)}.`;
+            break;
+          case 'type5':
+            let valorInicial5 = parseFloat(document.getElementById('input-y-5-inline').value);
+            let valorFinal5 = parseFloat(document.getElementById('input-x-5-inline').value);
+            if (isNaN(valorInicial5) || isNaN(valorFinal5)) { setError(['input-y-5-inline','input-x-5-inline'], 'error-5', 'Preencha os dois campos com números válidos.'); return; }
+            if (valorInicial5 === 0) { setError(['input-y-5-inline'], 'error-5', 'O valor inicial não pode ser zero.'); return; }
+            result = ((valorFinal5 - valorInicial5) / valorInicial5) * 100;
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `De ${formatNumber(valorInicial5)} para ${formatNumber(valorFinal5)} houve um aumento de ${formatNumber(result)}%.`;
+            break;
+          case 'type6':
+            let valorInicial6 = parseFloat(document.getElementById('input-y-6-inline').value);
+            let valorFinal6 = parseFloat(document.getElementById('input-x-6-inline').value);
+            if (isNaN(valorInicial6) || isNaN(valorFinal6)) { setError(['input-y-6-inline','input-x-6-inline'], 'error-6', 'Preencha os dois campos com números válidos.'); return; }
+            if (valorInicial6 === 0) { setError(['input-y-6-inline'], 'error-6', 'O valor inicial não pode ser zero.'); return; }
+            result = ((valorInicial6 - valorFinal6) / valorInicial6) * 100;
+            resultValue.innerText = formatNumber(result);
+            resultExplain.innerText = `De ${formatNumber(valorInicial6)} para ${formatNumber(valorFinal6)} houve uma diminuição de ${formatNumber(result)}%.`;
+            break;
+          default: throw new Error('Tipo de cálculo inválido.');
+        }
+        resultBox.classList.add('show');
+      } catch (error) { showMessage('Ocorreu um erro no cálculo. Verifique os valores inseridos.'); console.error(error); }
+    }
+
+    // === Funções de cálculo de área ===
+    function calcularAreaCirculo(){
+    const modo    = document.querySelector('input[name="modo-circulo"]:checked').value; // 'raio' | 'diametro'
+    const valor   = parseFloat(document.getElementById('valor-circulo').value);
+    const unidade = document.getElementById('unidade-circulo').value;
+    const decs    = parseInt(document.getElementById('decimais-circulo').value, 10);
+
+    if (isNaN(valor) || valor < 0){
+        showMessage('Digite um número válido para o ' + (modo === 'raio' ? 'raio' : 'diâmetro') + '.');
+        return;
+    }
+
+    const area = (modo === 'raio') ? Math.PI * valor * valor : (Math.PI * valor * valor) / 4;
+    const resultado = area.toLocaleString('pt-BR', { minimumFractionDigits: decs, maximumFractionDigits: decs });
+    const unidade2 = unidade + '²';
+
+    document.getElementById('valor-area-circulo').textContent = `${resultado} ${unidade2}`;
+
+    const explic = (modo === 'raio')
+        ? `Usando S = π r² com r = ${valor} ${unidade}: S = π × ${valor}² = ${resultado} ${unidade2}.`
+        : `Usando S = π d² / 4 com d = ${valor} ${unidade}: S = (π × ${valor}²) / 4 = ${resultado} ${unidade2}.`;
+
+    document.getElementById('explicacao-circulo').textContent = explic;
+    document.getElementById('result-circulo').classList.add('show');
+    }
+
+    document.querySelectorAll('input[name="modo-circulo"]').forEach(r => {
+    r.addEventListener('change', () => {
+        const modo = document.querySelector('input[name="modo-circulo"]:checked').value;
+        document.getElementById('rotulo-valor').textContent = (modo === 'raio') ? 'raio' : 'diâmetro';
+    });
+    });
+
+
+    function calcularArea(tipo) {
+      const formId = `result-${tipo}`;
+      const resultBox = document.getElementById(formId);
+      const resultValue = document.getElementById(`valor-area-${tipo}`);
+      const resultExplain = document.getElementById(`explicacao-${tipo}`);
+      
+      let valor1, valor2, valor3, area, unidade, decs, explic;
+      
+      try {
+        decs = parseInt(document.getElementById(`decimais-${tipo}`).value, 10);
+        unidade = document.getElementById(`unidade-${tipo}`).value;
+        
+        switch(tipo) {
+          case 'quadrado':
+            valor1 = parseFloat(document.getElementById('lado-quadrado').value);
+            if (isNaN(valor1) || valor1 < 0) { showMessage('Digite um valor válido para o lado.'); return; }
+            area = Math.pow(valor1, 2);
+            explic = `Usando $S = l^2$ com $l = ${valor1} ${unidade}$: $S = ${valor1}^2 = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          case 'retangulo':
+            valor1 = parseFloat(document.getElementById('comprimento-retangulo').value);
+            valor2 = parseFloat(document.getElementById('largura-retangulo').value);
+            if (isNaN(valor1) || isNaN(valor2) || valor1 < 0 || valor2 < 0) { showMessage('Digite valores válidos para o comprimento e largura.'); return; }
+            area = valor1 * valor2;
+            explic = `Usando $S = l × w$ com $l = ${valor1} ${unidade}$ e $w = ${valor2} ${unidade}$: $S = ${valor1} × ${valor2} = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          case 'triangulo':
+            valor1 = parseFloat(document.getElementById('base-triangulo').value);
+            valor2 = parseFloat(document.getElementById('altura-triangulo').value);
+            if (isNaN(valor1) || isNaN(valor2) || valor1 < 0 || valor2 < 0) { showMessage('Digite valores válidos para a base e altura.'); return; }
+            area = (valor1 * valor2) / 2;
+            explic = `Usando $S = (b × h) / 2$ com $b = ${valor1} ${unidade}$ e $h = ${valor2} ${unidade}$: $S = (${valor1} × ${valor2}) / 2 = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          case 'losango':
+            valor1 = parseFloat(document.getElementById('diagonal-maior-losango').value);
+            valor2 = parseFloat(document.getElementById('diagonal-menor-losango').value);
+            if (isNaN(valor1) || isNaN(valor2) || valor1 < 0 || valor2 < 0) { showMessage('Digite valores válidos para as diagonais.'); return; }
+            area = (valor1 * valor2) / 2;
+            explic = `Usando $S = (D × d) / 2$ com $D = ${valor1} ${unidade}$ e $d = ${valor2} ${unidade}$: $S = (${valor1} × ${valor2}) / 2 = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          case 'trapezio':
+            valor1 = parseFloat(document.getElementById('base-maior-trapezio').value);
+            valor2 = parseFloat(document.getElementById('base-menor-trapezio').value);
+            valor3 = parseFloat(document.getElementById('altura-trapezio').value);
+            if (isNaN(valor1) || isNaN(valor2) || isNaN(valor3) || valor1 < 0 || valor2 < 0 || valor3 < 0) { showMessage('Digite valores válidos para as bases e altura.'); return; }
+            area = ((valor1 + valor2) * valor3) / 2;
+            explic = `Usando $S = ((B+b) × h) / 2$ com $B = ${valor1} ${unidade}$, $b = ${valor2} ${unidade}$ e $h = ${valor3} ${unidade}$: $S = ((${valor1} + ${valor2}) × ${valor3}) / 2 = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          case 'elipse':
+            valor1 = parseFloat(document.getElementById('semi-eixo-a').value);
+            valor2 = parseFloat(document.getElementById('semi-eixo-b').value);
+            if (isNaN(valor1) || isNaN(valor2) || valor1 < 0 || valor2 < 0) { showMessage('Digite valores válidos para os semi-eixos.'); return; }
+            area = Math.PI * valor1 * valor2;
+            explic = `Usando $S = π × a × b$ com $a = ${valor1} ${unidade}$ e $b = ${valor2} ${unidade}$: $S = π × ${valor1} × ${valor2} = ${area.toFixed(decs)} ${unidade}^2$.`;
+            break;
+          default:
+            throw new Error('Tipo de cálculo inválido.');
+        }
+        
+        resultValue.textContent = `${area.toLocaleString('pt-BR', { minimumFractionDigits: decs, maximumFractionDigits: decs })} ${unidade}²`;
+        resultExplain.innerHTML = explic;
+        resultBox.classList.add('show');
+      } catch (error) {
+        showMessage('Ocorreu um erro no cálculo. Verifique os valores inseridos.');
+        console.error(error);
+      }
+    }
+
+    // === Funções de cálculo de datas ===
+    function calcularData(tipo) {
+      let data1, data2, dias, resultado, explicacao;
+      const resultBox = document.getElementById(`result-${tipo}`);
+      const resultValue = document.getElementById(`valor-dias-${tipo}`) || document.getElementById(`valor-data-${tipo}`);
+      const resultExplain = document.getElementById(`explicacao-${tipo}`);
+
+      try {
+        switch (tipo) {
+          case 'contador':
+            data1 = new Date(document.getElementById('data-inicio-contador').value);
+            data2 = new Date(document.getElementById('data-fim-contador').value);
+            if (isNaN(data1) || isNaN(data2)) { showMessage('Por favor, selecione as duas datas.'); return; }
+            const diffTime = Math.abs(data2 - data1);
+            dias = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            resultado = `${dias} dias`;
+            explicacao = `Há ${dias} dias entre as datas selecionadas.`;
+            break;
+          case 'somar':
+            data1 = new Date(document.getElementById('data-base-somar').value);
+            dias = parseInt(document.getElementById('dias-somar').value, 10);
+            if (isNaN(data1) || isNaN(dias)) { showMessage('Por favor, selecione uma data e insira um número de dias.'); return; }
+            const novaDataSomar = new Date(data1);
+            novaDataSomar.setDate(data1.getDate() + dias);
+            resultado = novaDataSomar.toLocaleDateString('pt-BR');
+            explicacao = `Somando ${dias} dias à data, a nova data é ${resultado}.`;
+            break;
+          case 'subtrair':
+            data1 = new Date(document.getElementById('data-base-subtrair').value);
+            dias = parseInt(document.getElementById('dias-subtrair').value, 10);
+            if (isNaN(data1) || isNaN(dias)) { showMessage('Por favor, selecione uma data e insira um número de dias.'); return; }
+            const novaDataSubtrair = new Date(data1);
+            novaDataSubtrair.setDate(data1.getDate() - dias);
+            resultado = novaDataSubtrair.toLocaleDateString('pt-BR');
+            explicacao = `Subtraindo ${dias} dias da data, a nova data é ${resultado}.`;
+            break;
+          default:
+            throw new Error('Tipo de cálculo inválido.');
+        }
+
+        resultValue.textContent = resultado;
+        resultExplain.textContent = explicacao;
+        resultBox.classList.add('show');
+      } catch (error) {
+        showMessage('Ocorreu um erro no cálculo. Verifique os valores inseridos.');
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
