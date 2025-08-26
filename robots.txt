@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elen-c-sales.github.io/elen4devs/sitemap.xml

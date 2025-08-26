@@ -3,9 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elen4Devs — Calculadoras</title>
+
+  <title>Calculadora de Porcentagem, Áreas Geométricas e Datas | Elen4Devs</title>
+  <meta name="description" content="Suíte de calculadoras online: porcentagem (com explicação), áreas geométricas (círculo, quadrado, triângulo, trapézio, elipse etc.) e datas (somar e subtrair dias). Leve, responsiva e acessível.">
+  <link rel="canonical" href="https://elen-c-sales.github.io/elen4devs/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Calculadora de Porcentagem, Áreas Geométricas e Datas | Elen4Devs">
+  <meta property="og:description" content="Suíte de calculadoras online: porcentagem, áreas geométricas e datas. Leve, responsiva e acessível.">
+  <meta property="og:url" content="https://elen-c-sales.github.io/elen4devs/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/elen-c-sales/elen4devs/main/screenshot.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Elen4Devs">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Calculadora de Porcentagem, Áreas Geométricas e Datas | Elen4Devs">
+  <meta name="twitter:description" content="Suíte de calculadoras online: porcentagem, áreas geométricas e datas.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/elen-c-sales/elen4devs/main/screenshot.png">
+
+  <!-- UI/Perf helpers -->
+  <meta name="theme-color" content="#ff6b9d">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Libs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Dados estruturados (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Elen4Devs — Suíte de Calculadoras",
+    "url": "https://elen-c-sales.github.io/elen4devs/",
+    "description": "Suíte de calculadoras web: porcentagem, áreas geométricas e datas.",
+    "creator": {
+      "@type": "Person",
+      "name": "Elen Camila Sales",
+      "email": "e.camila.sales@gmail.com",
+      "url": "https://elen-c-sales.github.io/"
+    }
+  }
+  </script>
+
   <style>
     /*
       ====================
@@ -491,16 +537,65 @@
     .date-form { grid-template-columns: 1fr; }
     }
 
+    /* A11y: texto só para leitores de tela */
+    .sr-only{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+
+    /* FAQ */
+    .faq { margin-top: 20px; }
+    .faq h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--text-primary); text-align: left; }
+    .faq details {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,107,157,.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+    .faq summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-primary);
+      list-style: none;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq details[open] { box-shadow: var(--shadow-md); }
+    .faq p { margin-top: 8px; color: var(--text-secondary); }
   </style>
+
+  <!-- Dados estruturados (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Elen4Devs — Suíte de Calculadoras",
+    "url": "https://elen-c-sales.github.io/elen4devs/",
+    "description": "Suíte de calculadoras web: porcentagem, áreas geométricas e datas.",
+    "creator": {
+      "@type": "Person",
+      "name": "Elen Camila Sales",
+      "email": "e.camila.sales@gmail.com",
+      "url": "https://elen-c-sales.github.io/"
+    }
+  }
+  </script>
 </head>
 <body>
   <header class="header">
     <div class="header-container">
       <h1><a href="https://elen-c-sales.github.io/" style="text-decoration: none; color: inherit;">Elen4Devs</a></h1>
       <div class="social-links" aria-label="Redes sociais">
-        <a href="https://elen-c-sales.github.io/" target="_blank" class="social-link" title="Ir para meu portfólio" aria-label="Portfólio"><i class="fas fa-link" aria-hidden="true"></i></a>
-        <a href="https://github.com/elen-c-sales" target="_blank" class="social-link" title="Ir para meu GitHub" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
-        <a href="https://www.linkedin.com/in/elen-camila-sales/" target="_blank" class="social-link" title="Ir para meu LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+        <a href="https://elen-c-sales.github.io/" target="_blank" rel="noopener noreferrer" class="social-link" title="Ir para meu portfólio" aria-label="Portfólio">
+          <i class="fas fa-link" aria-hidden="true"></i>
+        </a>
+        <a href="https://github.com/elen-c-sales" target="_blank" rel="noopener noreferrer" class="social-link" title="Ir para meu GitHub" aria-label="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/elen-camila-sales/" target="_blank" rel="noopener noreferrer" class="social-link" title="Ir para meu LinkedIn" aria-label="LinkedIn">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
   </header>
@@ -532,14 +627,19 @@
 
     <!-- Main -->
     <main class="main-content">
+      <h1 class="sr-only">Calculadora de Porcentagem, Áreas Geométricas e Datas</h1>
       <div class="main-col">
 
         <!-- Painel Porcentagem -->
         <div class="calculator-app active" data-panel id="panel-percent" aria-labelledby="app-title-percent">
           <h2 id="app-title-percent">Calculadora de Porcentagem Online</h2>
           <p class="intro-text">Calcule porcentagens de várias formas: aumentos, descontos, proporções etc.</p>
-          <div id="calc-tabs" class="tablist" role="tablist" aria-label="Tipos de calculadora">
-            <button class="tab" role="tab" id="tab-1" aria-controls="card-1" aria-selected="true" onclick="changeCalculator('card-1','tab-1')"><i class="fas fa-question" aria-hidden="true"></i> X% de Y?</button>
+          <p class="intro-text">
+            Calculadora de porcentagem para X% de Y, descobrir quanto X representa de Y e variação percentual
+            (aumento ou diminuição) entre valores. Fórmulas usadas: (X/100)×Y, Y×(1±X/100) e ((B−A)/A)×100.
+            Útil em descontos, reajustes, orçamento e análise rápida.
+          </p>
+          <div id="calc-tabs" class="tablist" role="tablist" aria-label="Tipos de calculadora">            <button class="tab" role="tab" id="tab-1" aria-controls="card-1" aria-selected="true" onclick="changeCalculator('card-1','tab-1')"><i class="fas fa-question" aria-hidden="true"></i> X% de Y?</button>
             <button class="tab" role="tab" id="tab-2" aria-controls="card-2" aria-selected="false" onclick="changeCalculator('card-2','tab-2')"><i class="fas fa-percent" aria-hidden="true"></i> X é qual % de Y?</button>
             <button class="tab" role="tab" id="tab-3" aria-controls="card-3" aria-selected="false" onclick="changeCalculator('card-3','tab-3')"><i class="fas fa-arrow-up" aria-hidden="true"></i> Aumento de %</button>
             <button class="tab" role="tab" id="tab-4" aria-controls="card-4" aria-selected="false" onclick="changeCalculator('card-4','tab-4')"><i class="fas fa-arrow-down" aria-hidden="true"></i> Diminuição de %</button>
@@ -663,16 +763,38 @@
           </section>
 
           <p class="intro-text" style="margin-top: 20px;">Este é o começo da suíte Elen4Devs — novas aplicações chegando.</p>
+          <section class="faq" aria-labelledby="faq-percent">
+            <h3 id="faq-percent">Perguntas frequentes</h3>
+
+            <details>
+              <summary>Como calcular X% de Y?</summary>
+              <p>Multiplique Y por X e divida por 100. Ex.: 15% de 200 = 200×15/100 = 30.</p>
+            </details>
+
+            <details>
+              <summary>Como saber a porcentagem de um número em relação a outro?</summary>
+              <p>Divida X por Y e multiplique por 100. Ex.: 30 é 20% de 150.</p>
+            </details>
+
+            <details>
+              <summary>Qual a diferença entre aumento % e aumento entre valores?</summary>
+              <p>“Aumento %” aplica um percentual sobre um valor; “entre valores” calcula a variação relativa de A para B.</p>
+            </details>
+          </section>
         </div>
 
         <!-- Painel Área do Círculo -->
         <div class="calculator-app" data-panel id="panel-area-circulo" aria-labelledby="app-title-circulo">
         <h2 id="app-title-circulo">Área do Círculo</h2>
         <p class="intro-text">
-            Selecione a fórmula por <strong>raio</strong> (r) ou <strong>diâmetro</strong> (d), digite o valor e calcule a área.
-            Usamos π = 3,14159.
+          Selecione a fórmula por <strong>raio</strong> (r) ou <strong>diâmetro</strong> (d), digite o valor e calcule a área.
+          Usamos π = 3,14159.
         </p>
-
+        <p class="intro-text">
+          Calcule a área do círculo com <em>S = πr²</em> (quando você conhece o raio) ou <em>S = πd²/4</em> (quando conhece o diâmetro).
+          Escolha a unidade de medida e as casas decimais; o resultado sai em unidade², com explicação do passo a passo.
+          Útil em layout, engenharia, manufatura e estudos de geometria.
+        </p>
         <div class="calculation-card">
             <!-- diagrama ao lado, sem quebrar seu layout -->
             <figure class="diagram" aria-hidden="true">
@@ -724,13 +846,39 @@
             </div>
 
             <!-- resultado -->
-            <div class="result-area" id="result-circulo">
-            <p>Área:</p>
-            <span id="valor-area-circulo">0</span>
-            <div id="explicacao-circulo" class="result-explain"></div>
+            <div class="result-area" id="result-circulo" aria-live="polite">
+              <p>Área:</p>
+              <span id="valor-area-circulo">0</span>
+              <div id="explicacao-circulo" class="result-explain"></div>
             </div>
-        </div>
-        </div>
+          </div> <!-- fecha .calculation-card -->
+
+          <!-- FAQ da seção Círculo -->
+          <section class="faq" aria-labelledby="faq-circulo">
+            <h3 id="faq-circulo">Perguntas frequentes</h3>
+
+            <details>
+              <summary>Qual fórmula devo usar: raio ou diâmetro?</summary>
+              <p>Se você tem o raio, use S = πr². Se tem o diâmetro, use S = πd²/4. Lembre que d = 2r, então as duas fórmulas são equivalentes.</p>
+            </details>
+
+            <details>
+              <summary>Como ficam as unidades no resultado?</summary>
+              <p>Se o valor de entrada está em cm, a área sai em cm²; se estiver em m, sai em m²; e assim por diante.</p>
+            </details>
+
+            <details>
+              <summary>Qual valor de π é usado?</summary>
+              <p>A calculadora usa <code>Math.PI</code> do JavaScript (aprox. 3,14159) para maior precisão.</p>
+            </details>
+
+            <details>
+              <summary>Qual a diferença entre circunferência e área?</summary>
+              <p>A circunferência é o “perímetro” do círculo (C = 2πr). A área é a medida da superfície interna (S = πr²).</p>
+            </details>
+          </section>
+
+        </div> <!-- fecha #panel-area-circulo -->
 
         <!-- Painel Área do Quadrado -->
         <div class="calculator-app" data-panel id="panel-area-quadrado" aria-labelledby="app-title-quadrado" hidden>
@@ -759,7 +907,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('quadrado')">Calcular</button>
             </div>
-            <div class="result-area" id="result-quadrado">
+            <div class="result-area" id="result-quadrado" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-quadrado">0</span>
               <div id="explicacao-quadrado" class="result-explain"></div>
@@ -798,7 +946,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('retangulo')">Calcular</button>
             </div>
-            <div class="result-area" id="result-retangulo">
+            <div class="result-area" id="result-retangulo" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-retangulo">0</span>
               <div id="explicacao-retangulo" class="result-explain"></div>
@@ -837,7 +985,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('triangulo')">Calcular</button>
             </div>
-            <div class="result-area" id="result-triangulo">
+            <div class="result-area" id="result-triangulo" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-triangulo">0</span>
               <div id="explicacao-triangulo" class="result-explain"></div>
@@ -876,7 +1024,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('losango')">Calcular</button>
             </div>
-            <div class="result-area" id="result-losango">
+            <div class="result-area" id="result-losango" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-losango">0</span>
               <div id="explicacao-losango" class="result-explain"></div>
@@ -919,7 +1067,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('trapezio')">Calcular</button>
             </div>
-            <div class="result-area" id="result-trapezio">
+            <div class="result-area" id="result-trapezio" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-trapezio">0</span>
               <div id="explicacao-trapezio" class="result-explain"></div>
@@ -958,7 +1106,7 @@
               </div>
               <button class="btn-calc" onclick="calcularArea('elipse')">Calcular</button>
             </div>
-            <div class="result-area" id="result-elipse">
+            <div class="result-area" id="result-elipse" aria-live="polite">
               <p>Área:</p>
               <span id="valor-area-elipse">0</span>
               <div id="explicacao-elipse" class="result-explain"></div>
@@ -982,7 +1130,7 @@
               </div>
             </div>
             <button class="btn-calc full-width" onclick="calcularData('contador')">Calcular</button>
-            <div class="result-area" id="result-contador">
+            <div class="result-area" id="result-contador" aria-live="polite">
               <p>Resultado:</p>
               <span id="valor-dias-contador">0</span>
               <div id="explicacao-contador" class="result-explain"></div>
@@ -1010,7 +1158,7 @@
             <button class="btn-calc full" onclick="calcularData('somar')">Calcular</button>
             </div>
 
-            <div class="result-area" id="result-somar">
+            <div class="result-area" id="result-somar" aria-live="polite">
             <p>Nova Data:</p>
             <span id="valor-data-somar"></span>
             <div id="explicacao-somar" class="result-explain"></div>
@@ -1038,7 +1186,7 @@
             <button class="btn-calc full" onclick="calcularData('subtrair')">Calcular</button>
             </div>
 
-            <div class="result-area" id="result-subtrair">
+            <div class="result-area" id="result-subtrair" aria-live="polite">
             <p>Nova Data:</p>
             <span id="valor-data-subtrair"></span>
             <div id="explicacao-subtrair" class="result-explain"></div>
