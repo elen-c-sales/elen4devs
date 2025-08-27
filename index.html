@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Calculadora de Porcentagem, Áreas Geométricas e Datas | Elen4Devs</title>
-  <meta name="description" content="Suíte de calculadoras online: porcentagem (com explicação), áreas geométricas (círculo, quadrado, triângulo, trapézio, elipse etc.) e datas (somar e subtrair dias). Leve, responsiva e acessível.">
+  <meta name="description" content="Suíte de calculadoras: porcentagem explicada, áreas geométricas e datas (somar/subtrair). Rápida, responsiva e acessível.">
   <link rel="canonical" href="https://elen-c-sales.github.io/elen4devs/">
 
   <!-- Open Graph -->
@@ -130,13 +130,19 @@
       flex-wrap: wrap;
       gap: 20px;
     }
-    .header h1 {
+    /* substitui o antigo .header h1 */
+    .header .brand{
       font-size: 1.8rem;
       font-weight: 700;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin: 0;
+    }
+    .header .brand a{
+      color: inherit;
+      text-decoration: none;
     }
     .social-links { display: flex; gap: 15px; }
     .social-link { color: var(--text-secondary); font-size: 1.2rem; transition: var(--transition); }
@@ -585,7 +591,9 @@
 <body>
   <header class="header">
     <div class="header-container">
-      <h1><a href="https://elen-c-sales.github.io/" style="text-decoration: none; color: inherit;">Elen4Devs</a></h1>
+      <p class="brand">
+        <a href="https://elen-c-sales.github.io/" style="text-decoration: none; color: inherit;">Elen4Devs</a>
+      </p>
       <div class="social-links" aria-label="Redes sociais">
         <a href="https://elen-c-sales.github.io/" target="_blank" rel="noopener noreferrer" class="social-link" title="Ir para meu portfólio" aria-label="Portfólio">
           <i class="fas fa-link" aria-hidden="true"></i>
